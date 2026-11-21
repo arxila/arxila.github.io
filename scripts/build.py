@@ -115,6 +115,24 @@ def go_import_meta(path, repo):
     )
 
 
+GO_PATH_RE = re.compile(r"[a-z0-9][a-z0-9._-]*(/[a-z0-9][a-z0-9._-]*)*")
+RESERVED = {"index.html", "404.html", "CNAME", ".nojekyll"}
+
+
+def check_go_modules(go_modules):
+    """Fails if a module path is malformed or would clash with a site file."""
+    for path, repo in go_modules.items():
+        if not GO_PATH_RE.fullmatch(path):
+            sys.exit(f"error: invalid Go module path 'arxila.io/{path}' in projects.toml")
+        if not isinstance(repo, str) or not repo:
+            sys.exit(f"error: Go module '{path}' has no repository in projects.toml")
+        if path.split("/")[0] in RESERVED or (ROOT / "site" / path).exists():
+            sys.exit(
+                f"error: Go module path 'arxila.io/{path}' clashes with a file or "
+                f"folder in site/; rename one of them"
+            )
+
+
 def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "_site"
     config = tomllib.loads((ROOT / "projects.toml").read_text(encoding="utf-8"))
@@ -147,6 +165,7 @@ def main():
         sys.exit(f"error: the {ORG} organization has no description on GitHub")
 
     go_modules = config.get("go", {})
+    check_go_modules(go_modules)
 
     if out.exists():
         shutil.rmtree(out)
@@ -162,9 +181,9 @@ def main():
         encoding="utf-8",
     )
 
-    # One page per Go module. Deeper import paths (e.g. arxila.io/x/cmd/x) are
-    # answered by 404.html, which carries every go-import tag: the go command
-    # reads the tags even from a 404 response and picks the matching prefix.
+    # One page per Go module. Deeper import paths (e.g. arxila.io/x/cmd/x) need
+    # no page of their own: the go command also looks up every parent path and
+    # finds the module's page.
     for path, repo in go_modules.items():
         page = out / path / "index.html"
         page.parent.mkdir(parents=True, exist_ok=True)
@@ -179,8 +198,7 @@ def main():
             encoding="utf-8",
         )
 
-    all_meta = "\n    ".join(go_import_meta(p, r) for p, r in go_modules.items())
-    (out / "404.html").write_text(render("404.html", meta=all_meta), encoding="utf-8")
+    (out / "404.html").write_text(render("404.html"), encoding="utf-8")
     (out / "CNAME").write_text(DOMAIN + "\n", encoding="utf-8")
     (out / ".nojekyll").write_text("", encoding="utf-8")
 
