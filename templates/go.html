@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+  =========================================================================
+
+    Copyright (c) 2026 Arxila OSS (https://arxila.io)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+    implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+  =========================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${meta}
+  <title>${module}</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/arxila-symbol-tile.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<main>
+  <header>
+    <a class="logo" href="/">
+      <img src="/assets/arxila-logo-on-dark.svg" alt="Arxila" width="215" height="64">
+    </a>
+  </header>
+
+  <h2>Go module</h2>
+  <pre><code>go get ${module}</code></pre>
+  <p><a href="${repo_url}">Source</a> &middot; <a href="${doc_url}">Documentation</a></p>
+
+  <footer>
+    <a href="/">arxila.io</a> &middot; <a href="https://github.com/arxila">github.com/arxila</a>
+  </footer>
+</main>
+</body>
+</html>

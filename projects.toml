@@ -1,0 +1,50 @@
+#
+# =========================================================================
+#
+#   Copyright (c) 2026 Arxila OSS (https://arxila.io)
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+#   implied. See the License for the specific language governing
+#   permissions and limitations under the License.
+#
+# =========================================================================
+#
+
+# Projects shown on https://arxila.io
+#
+# Each list names repositories of the "arxila" GitHub organization, in the order
+# they appear on the site. Descriptions are taken from GitHub on every build.
+# Repositories not listed here are not shown. A listed repository that is not
+# (yet) public is skipped with a warning, so it can be added in advance.
+
+active = [
+    "atomichash",
+    "javatuples",
+    "javaruntype",
+    "vexprel",
+]
+
+development = [
+    "aiplam",
+]
+
+archived = [
+    "op4j",
+    "javagalician",
+]
+
+
+# Go vanity import paths served from arxila.io.
+# Key: path under arxila.io (module "arxila.io/<key>").
+# Value: repository of the "arxila" organization that holds the module.
+
+[go]
+aiplam = "aiplam"
