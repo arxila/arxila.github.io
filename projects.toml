@@ -29,11 +29,11 @@ active = [
     "atomichash",
     "javatuples",
     "javaruntype",
-    "vexprel",
 ]
 
 development = [
     "aiplam",
+    "vexprel",
 ]
 
 archived = [
