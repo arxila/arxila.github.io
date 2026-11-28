@@ -42,6 +42,16 @@ archived = [
 ]
 
 
+# Other projects by the same author, outside the arxila organization, shown in a
+# "See also" section at the end of the page. Entries are "owner/repo".
+
+see_also = [
+    "thymeleaf/thymeleaf",
+    "attoparser/attoparser",
+    "unbescape/unbescape",
+]
+
+
 # Go vanity import paths served from arxila.io.
 # Key: path under arxila.io (module "arxila.io/<key>").
 # Value: repository of the "arxila" organization that holds the module.

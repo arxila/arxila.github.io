@@ -130,6 +130,78 @@ h2 {
 .archived .project { opacity: .7; }
 .archived .project:hover { opacity: 1; }
 
+/* Archived: collapsible, collapsed by default */
+details.archived > summary {
+  list-style: none;
+  cursor: pointer;
+  width: fit-content;
+}
+
+details.archived > summary::-webkit-details-marker { display: none; }
+
+details.archived > summary h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+details.archived > summary h2::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform .15s;
+}
+
+details.archived[open] > summary h2::before { transform: rotate(45deg); }
+
+details.archived > summary:hover h2 { color: var(--text); }
+details.archived > summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 4px; }
+
+.count {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted-faint);
+}
+
+/* See also: other projects by the same author, quieter than the project boxes */
+.see-also { margin-top: 48px; }
+
+.see-also .note {
+  margin: -6px 0 10px;
+  font-size: .9rem;
+  color: var(--muted-faint);
+}
+
+.see-also ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.see-also li { border-bottom: 1px solid var(--border); }
+
+.see-also a {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  column-gap: 12px;
+  padding: 10px 2px;
+  color: inherit;
+  text-decoration: none;
+  font-size: .95rem;
+}
+
+.see-also .name { font-weight: 500; }
+.see-also .desc { color: var(--muted); }
+.see-also a:hover .name, .see-also a:focus-visible .name { color: var(--orange); }
+
+@media (max-width: 520px) {
+  .see-also a { grid-template-columns: 1fr; }
+}
+
 code {
   font: .95em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   background: var(--surface);

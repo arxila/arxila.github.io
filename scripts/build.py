@@ -108,6 +108,16 @@ def project_item(repo):
     )
 
 
+def see_also_item(repo):
+    name = html.escape(repo["name"])
+    url = html.escape(repo["html_url"], quote=True)
+    desc = html.escape((repo.get("description") or "").strip())
+    return (
+        f'<li><a href="{url}"><span class="name">{name}</span>'
+        f'<span class="desc">{desc}</span></a></li>'
+    )
+
+
 def go_import_meta(path, repo):
     return (
         f'<meta name="go-import" content="{DOMAIN}/{html.escape(path, quote=True)} '
@@ -154,11 +164,35 @@ def main():
             if not repo.get("archived") and key == "archived":
                 warn(f"'{name}' is listed as archived but is not archived on GitHub")
             items.append(project_item(repo))
-        if items:
+        if not items:
+            continue
+        projects = f'<ul class="projects">{"".join(items)}</ul>'
+        if key == "archived":
+            # Collapsed by default: a <details> element, no JavaScript needed.
             sections_html.append(
-                f'<section class="{key}"><h2>{title}</h2>'
-                f'<ul class="projects">{"".join(items)}</ul></section>'
+                f'<details class="{key}"><summary><h2>{title} '
+                f'<span class="count">({len(items)})</span></h2></summary>'
+                f"{projects}</details>"
             )
+        else:
+            sections_html.append(f'<section class="{key}"><h2>{title}</h2>{projects}</section>')
+
+    # Other projects by the same author, outside the organization ("owner/repo").
+    see_also = []
+    for full_name in config.get("see_also", []):
+        if full_name.count("/") != 1:
+            sys.exit(f"error: see_also entry '{full_name}' must be 'owner/repo' in projects.toml")
+        repo = fetch(f"repos/{full_name}")
+        if repo is None or repo.get("private"):
+            warn(f"'{full_name}' is not a public repository; skipped")
+            continue
+        see_also.append(see_also_item(repo))
+    if see_also:
+        sections_html.append(
+            '<section class="see-also"><h2>See also</h2>'
+            '<p class="note">Other open source projects by the same author.</p>'
+            f'<ul>{"".join(see_also)}</ul></section>'
+        )
 
     org_description = (fetch(f"orgs/{ORG}").get("description") or "").strip()
     if not org_description:

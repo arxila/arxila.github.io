@@ -10,6 +10,9 @@ Edit [`projects.toml`](projects.toml). Repositories are listed under `active`, `
 build time, so they are not edited here. A listed repository that is not public yet is skipped
 until it is.
 
+The `see_also` list (`owner/repo` entries) adds projects by the same author from outside the organization,
+shown in a separate section at the end of the page. The `archived` section is shown collapsed.
+
 Go modules are declared in the `[go]` table of the same file.
 
 ## How it is published
