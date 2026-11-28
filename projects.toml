@@ -26,13 +26,13 @@
 # (yet) public is skipped with a warning, so it can be added in advance.
 
 active = [
+    "aiplam",
     "atomichash",
     "javatuples",
     "javaruntype",
 ]
 
 development = [
-    "aiplam",
     "vexprel",
 ]
 
